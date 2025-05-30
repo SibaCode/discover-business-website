@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DiscoverBusiness Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body, html {
+      height: 100vh;
+      display: flex;
+      background: #fff;
+      color: #000;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      width: 220px;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1rem;
+    }
+    #sidebar h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+    #sidebar nav ul {
+      list-style: none;
+    }
+    #sidebar nav ul li {
+      margin-bottom: 1.3rem;
+    }
+    #sidebar nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      display: block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    #sidebar nav ul li a.active,
+    #sidebar nav ul li a:hover {
+      background: #222;
+    }
+
+    /* Main Content */
+    #main-content {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #main-content header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    #main-content header h2 {
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+    #main-content header button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+    #main-content header button:hover {
+      background: #333;
+    }
+
+    /* Stats Cards */
+    .stats-cards {
+      display: flex;
+      gap: 1.3rem;
+      margin-bottom: 2rem;
+    }
+    .stats-cards .card {
+      background: #f7f7f7;
+      flex: 1;
+      padding: 1.3rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #111;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    .stats-cards .card strong {
+      display: block;
+      font-size: 2rem;
+      margin-top: 0.4rem;
+      color: #000;
+    }
+    .stats-cards .card:hover {
+      box-shadow: 0 5px 15px rgb(0 0 0 / 0.15);
+    }
+
+    /* Business Table */
+    .business-list {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    thead {
+      background: #000;
+      color: #fff;
+    }
+    th, td {
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background: #f0f0f0;
+    }
+
+    /* Buttons inside table */
+    .btn {
+      border: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-right: 0.3rem;
+      transition: background-color 0.3s ease;
+    }
+    .btn.edit {
+      background: #000;
+      color: #fff;
+    }
+    .btn.edit:hover {
+      background: #444;
+    }
+    .btn.delete {
+      background: #ff3b3b;
+      color: #fff;
+    }
+    .btn.delete:hover {
+      background: #cc0000;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      width: 400px;
+      max-width: 90vw;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+      position: relative;
+    }
+    .modal-content h3 {
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+    .modal-content form input,
+    .modal-content form textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      font-family: 'Poppins', sans-serif;
+      color: #111;
+      resize: vertical;
+    }
+    .modal-content form textarea {
+      min-height: 80px;
+    }
+    .modal-content form button {
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      background: #000;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .modal-content form button:hover {
+      background: #333;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.2s ease;
+    }
+    .modal-close:hover {
+      color: #000;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      #sidebar {
+        display: none;
+      }
+      #main-content {
+        padding: 1rem;
+      }
+      .stats-cards {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside id="sidebar">
+    <h1>DiscoverBusiness</h1>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">Businesses</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="main-content">
+    <header>
+      <h2>Dashboard</h2>
+      <button id="btnAdd">Add Business</button>
+    </header>
+
+    <section class="stats-cards">
+      <div class="card">Total Businesses<br><strong id="totalCount">0</strong></div>
+      <div class="card">Active Businesses<br><strong id="activeCount">0</strong></div>
+      <div class="card">Pending Approvals<br><strong id="pendingCount">0</strong></div>
+    </section>
+
+    <section class="business-list">
+      <table>
+        <thead>
+            <tr>
+              <th>Name</th>
+              <th>Industry</th>
+              <th>Description</th>
+              <th>Products</th>
+              <th>Location</th>
+              <th>Contact Person</th>
+              <th>Contact Number</th>
+              <th>Email</th>
+              <th>Facebook</th>
+              <th>Logo</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          
+        <tbody id="businessTableBody">
+          <!-- Data rows here -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <h3 id="modalTitle">Add Business</h3>
+      <form id="businessForm">
+        <input type="text" id="name" placeholder="Business Name" required />
+        <input type="text" id="industry" placeholder="Industry" required />
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="text" id="products" placeholder="products" required />
+        <input type="text" id="location" placeholder="Location" required />
+        <input type="text" id="contactPerson" placeholder="Contact Person" required />
+        <input type="text" id="contactNumber" placeholder="Contact Number" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="text" id="facebook" placeholder="facebook" required />
+
+        <label for="image"> Logo</label>
+        <input type="file" id="image" accept="image" />
+        <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100px; display: none; margin-top: 10px;" />
+
+        <label for="productImages">Product Photos</label>
+        <input type="file" id="productImages" name="productImages" multiple>
+        
+        <button type="submit" id="submitBtn">Save</button>
+      </form>
+    </div>
+  </div>
+<!-- Floating message box -->
+<div id="messageBox" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4CAF50; /* green for success default */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 2000;
+  max-width: 300px;
+  word-wrap: break-word;
+"></div>
+
+  <script src="admin.js"></script>
+  
+  
+</body>
+</html>

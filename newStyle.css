@@ -1,0 +1,63 @@
+.logo_normal , .logo_sticky{
+    width: auto;
+    height: 127px;
+    margin: -35px 0px -24px 0;
+}
+.sub_header_in.sticky_header {
+    margin-top: 91px;
+}
+@media (max-width: 991px) {
+    .header_in #logo img {
+        margin: -62px;
+    }
+}
+.sub_header_in {
+    background-color: #8a39d9;
+    padding: 42px 0;
+}
+.strip_booking {
+    border-bottom: 0px solid #ededed;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+@media (max-width: 991px) {
+#logo img {
+    width: auto;
+    height: 96px;
+    margin: -25px 0 0 0;
+}
+}
+.hero_single.main-hero {
+    height: 460px;
+    background: #222 url(./images/home_section_1.jpg) center center no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.call_section.pattern {
+    background: #8a39d9 url(./images/pattern.svg) center center repeat fixed;
+}  
+.img-fluid {
+    max-width: 50%;
+    height: auto;
+}
+.hero_in.shop_detail {
+    position: relative; /* Use relative to allow better layout control */
+    width: 100%;
+    /* height: px; */
+    aspect-ratio: 1 / 1; /* This ensures a perfect square (equal width and height) */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain; /* Or 'cover' if you prefer full coverage */
+    background-color: white; /* Optional: fallback background color */
+}
+.hero_single.version_2 {
+    height: 460px;
+    background: #222 url(img/home_section_1.jpg) center center no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+  

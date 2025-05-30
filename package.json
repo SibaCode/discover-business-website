@@ -1,0 +1,20 @@
+{
+  "name": "discover-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "firebase-admin": "^11.11.1",
+    "multer": "^2.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
