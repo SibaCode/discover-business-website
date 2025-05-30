@@ -6,7 +6,7 @@ const admin = require("firebase-admin");
 const app = express();
 
 // Firebase setup
-const serviceAccount = require("./config/new-serviceAccountKey.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -153,3 +153,5 @@ const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
