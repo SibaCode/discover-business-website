@@ -7,6 +7,8 @@ const app = express();
 
 // Firebase setup
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+// const serviceAccount = require("./config/new-serviceAccountKey.json");
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
