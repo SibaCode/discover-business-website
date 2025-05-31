@@ -1,4 +1,4 @@
-const API_URL = 'https://discover-business.vercel.app//api/businesses';
+const API_URL = 'https://discover-business-backend.vercel.app//api/businesses';
 const businessName = document.getElementById('businessName');
 const listingCount = document.getElementById('listingCount');
 const inquiryCount = document.getElementById('inquiryCount');

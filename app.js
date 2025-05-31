@@ -19,12 +19,13 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 app.use(cors({
-  origin: 'https://discover-business.vercel.app',
+  origin: '',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-// Your Firestore db instance (make sure it's initialized properly)
-
+// // Your Firestore db instance (make sure it's initialized properly)
+// https://discover-business-backend.vercel.app
+// https://discover-business-backend.vercel.app/
 app.use(express.json());
 
 // Serve static files from uploads directory
@@ -44,6 +45,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+app.get('/', (req, res) => {
+  res.send('Welcome to the Business API');
+});
 
 // Allow fields: image (single), productImages (multiple)
 const uploadFields = upload.fields([

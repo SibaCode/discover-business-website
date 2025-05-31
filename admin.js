@@ -1,4 +1,4 @@
-const API_URL = 'https://discover-business.vercel.app//api/businesses';
+const API_URL = 'https://discover-business-backend.vercel.app//api/businesses';
 
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modalTitle');
@@ -88,7 +88,7 @@ async function fetchBusinesses() {
         <td>${biz.email}</td>
                 <td>${biz.facebook}</td>
 
-<td>${biz.imageUrl ? `<img src="https://discover-business.vercel.app/${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
+<td>${biz.imageUrl ? `<img src="https://discover-business-backend.vercel.app/${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
         <td>
           <button class="btn edit" data-id="${biz.id}">Edit</button>
           <button class="btn delete" data-id="${biz.id}">Delete</button>
