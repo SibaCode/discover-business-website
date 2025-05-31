@@ -6,7 +6,6 @@
 //     credential: admin.credential.cert(serviceAccount)
 //   });
 // }
-// const db = admin.firestore();
 
 // const seed = async () => {
 //   const business = {

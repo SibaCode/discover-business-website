@@ -9,49 +9,42 @@ const submitBtn = document.getElementById('submitBtn');
 const businessTableBody = document.getElementById('businessTableBody');
 const imageInput = document.getElementById('image');
 const imagePreview = document.getElementById('imagePreview');
-const messageBox = document.getElementById('messageBox'); // New div for messages
+const messageBox = document.getElementById('messageBox');
 
 let editingBusinessId = null;
+window.currentProductImages = [];
 
 function showMessage(msg, isError = false) {
-    const messageBox = document.getElementById('messageBox');
-    if (!messageBox) return;
-  
-    messageBox.textContent = msg;
-    messageBox.style.background = isError ? '#f44336' : '#4CAF50'; // red for error, green for success
-    messageBox.style.display = 'block';
-  
-    // Hide after 3 seconds
-    setTimeout(() => {
-      messageBox.style.display = 'none';
-      messageBox.textContent = '';
-    }, 3000);
-  }
-  
-  function showSuccess(msg) {
-    showMessage(msg, false);
-  }
-  
-  function showError(msg) {
-    showMessage(msg, true);
-  }
-  
+  messageBox.textContent = msg;
+  messageBox.className = isError ? 'error' : 'success';
+  messageBox.style.display = 'block';
+  setTimeout(() => {
+    messageBox.style.display = 'none';
+    messageBox.textContent = '';
+  }, 3000);
+}
 
-// Open modal for adding a new business
+function showSuccess(msg) {
+  showMessage(msg, false);
+}
+
+function showError(msg) {
+  showMessage(msg, true);
+}
+
 btnAdd.addEventListener('click', () => {
   editingBusinessId = null;
   modalTitle.textContent = 'Add Business';
   businessForm.reset();
   imagePreview.style.display = 'none';
+  window.currentProductImages = [];
   modal.classList.add('active');
 });
 
-// Close modal
 modalCloseBtn.addEventListener('click', () => {
   modal.classList.remove('active');
 });
 
-// Image preview logic
 imageInput.addEventListener('change', () => {
   const file = imageInput.files[0];
   if (file) {
@@ -66,7 +59,6 @@ imageInput.addEventListener('change', () => {
   }
 });
 
-// Fetch and display businesses
 async function fetchBusinesses() {
   try {
     const res = await fetch(API_URL);
@@ -86,9 +78,8 @@ async function fetchBusinesses() {
         <td>${biz.contactPerson}</td>
         <td>${biz.contactNumber}</td>
         <td>${biz.email}</td>
-                <td>${biz.facebook}</td>
-
-<td>${biz.imageUrl ? `<img src="https://discover-business-backend.vercel.app/${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
+        <td>${biz.facebook}</td>
+        <td>${biz.imageUrl ? `<img src="${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
         <td>
           <button class="btn edit" data-id="${biz.id}">Edit</button>
           <button class="btn delete" data-id="${biz.id}">Delete</button>
@@ -97,7 +88,6 @@ async function fetchBusinesses() {
       businessTableBody.appendChild(tr);
     });
 
-    // Add edit button listeners
     document.querySelectorAll('.btn.edit').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = e.target.dataset.id;
@@ -105,7 +95,6 @@ async function fetchBusinesses() {
       });
     });
 
-    // Add delete button listeners
     document.querySelectorAll('.btn.delete').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = e.target.dataset.id;
@@ -114,23 +103,11 @@ async function fetchBusinesses() {
         }
       });
     });
-
-    updateStats(businesses);
   } catch (error) {
     showError(error.message);
   }
 }
 
-// Update stats cards
-function updateStats(businesses) {
-  document.getElementById('totalCount').textContent = businesses.length;
-  const activeCount = businesses.filter(b => b.status === 'active').length;
-  const pendingCount = businesses.filter(b => b.status === 'pending').length;
-  document.getElementById('activeCount').textContent = activeCount;
-  document.getElementById('pendingCount').textContent = pendingCount;
-}
-
-// Open modal and populate for editing
 async function openEditModal(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
@@ -150,8 +127,6 @@ async function openEditModal(id) {
     businessForm.facebook.value = biz.facebook || '';
     businessForm.products.value = biz.products || '';
 
-
-    // Save existing product images URLs globally for form submission later
     window.currentProductImages = biz.productImages || [];
 
     if (biz.imageUrl) {
@@ -161,15 +136,13 @@ async function openEditModal(id) {
       imagePreview.style.display = 'none';
     }
 
-    imageInput.value = '';  // Clear file input
-
+    imageInput.value = '';
     modal.classList.add('active');
   } catch (error) {
     showError(error.message);
   }
 }
 
-// Delete business
 async function deleteBusiness(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`, {
@@ -198,8 +171,6 @@ businessForm.addEventListener('submit', async (e) => {
   formData.append('facebook', businessForm.facebook.value);
   formData.append('products', businessForm.products.value);
 
-
-  // Append main image file if selected
   if (businessForm.image.files[0]) {
     formData.append('image', businessForm.image.files[0]);
   }
@@ -207,15 +178,11 @@ businessForm.addEventListener('submit', async (e) => {
   const productImagesInput = document.getElementById('productImages');
 
   if (productImagesInput && productImagesInput.files.length > 0) {
-    // User selected new product images files, append each file
     Array.from(productImagesInput.files).forEach(file => {
       formData.append('productImages', file);
     });
   } else {
-    // No new product images files selected
-    // Send the existing product images URLs as JSON string (replace with your actual current array)
-    const existingProductImages = window.currentProductImages || []; // <-- You must set this variable when loading form
-
+    const existingProductImages = window.currentProductImages || [];
     formData.append('productImages', JSON.stringify(existingProductImages));
   }
 
@@ -224,28 +191,34 @@ businessForm.addEventListener('submit', async (e) => {
     if (editingBusinessId) {
       res = await fetch(`${API_URL}/${editingBusinessId}`, {
         method: 'PUT',
-        body: formData,
+        body: formData
       });
     } else {
       res = await fetch(API_URL, {
         method: 'POST',
-        body: formData,
+        body: formData
       });
     }
 
+    const result = await res.json();
+
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || 'Failed to save business');
+      throw new Error(result.message || 'An error occurred');
     }
 
-    showSuccess(editingBusinessId ? 'Business updated successfully' : 'Business created successfully');
+    showSuccess(editingBusinessId ? 'Business updated successfully' : 'Business added successfully');
+
     modal.classList.remove('active');
+    businessForm.reset();
+    imagePreview.style.display = 'none';
+    editingBusinessId = null;
+    window.currentProductImages = [];
+
     await fetchBusinesses();
   } catch (error) {
     showError(error.message);
   }
 });
 
-
-// Initial fetch
+// Initial load
 fetchBusinesses();
