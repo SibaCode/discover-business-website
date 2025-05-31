@@ -493,7 +493,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 				'<em>'+ item.type_point +'</em>' +
 				'<strong>'+ item.description_point +'</strong>' +
 				'<a href="'+ item.url_point + '" class="btn_infobox_detail"></a>' +
-				'<form action="http://maps.google.com/maps" method="get" target="_blank"><input name="saddr" value="'+ item.get_directions_start_address +'" type="hidden"><input type="hidden" name="daddr" value="'+ item.location_latitude +',' +item.location_longitude +'"><button type="submit" value="Get directions" class="btn_infobox_get_directions">Get directions</button></form>' +
+				'<form action="https://maps.google.com/maps" method="get" target="_blank"><input name="saddr" value="'+ item.get_directions_start_address +'" type="hidden"><input type="hidden" name="daddr" value="'+ item.location_latitude +',' +item.location_longitude +'"><button type="submit" value="Get directions" class="btn_infobox_get_directions">Get directions</button></form>' +
 					'<a href="tel://'+ item.phone +'" class="btn_infobox_phone">'+ item.phone +'</a>' +
 					'</span>' +
 				'</div>',

@@ -1,5 +1,5 @@
 /* Modernizr 2.7.1 (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-video-touch-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes
+ * Build: https://modernizr.com/download/#-video-touch-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes
  */
 ;
 

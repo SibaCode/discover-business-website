@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const admin = require("firebase-admin");
 const app = express();
+app.options('*', cors());
 
 // Firebase setup
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
@@ -17,8 +18,11 @@ if (!admin.apps.length) {
 }
 const db = admin.firestore();
 
-app.use(cors());
-
+app.use(cors({
+  origin: 'https://discover-business.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 // Your Firestore db instance (make sure it's initialized properly)
 
 app.use(express.json());
@@ -152,9 +156,9 @@ app.delete("/api/businesses/:id", async (req, res) => {
 
 
 // Start server
-const PORT = 4000;
+const PORT = process.env.PORT ||4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on https://localhost:${PORT}`);
 });
 
 
