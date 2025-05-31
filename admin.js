@@ -197,53 +197,29 @@ businessForm.addEventListener('submit', async (e) => {
   formData.append('facebook', businessForm.facebook.value);
   formData.append('products', businessForm.products.value);
 
-
-  // Append main image file if selected
-  if (businessForm.image.files[0]) {
-    formData.append('image', businessForm.image.files[0]);
-  }
-
-  const productImagesInput = document.getElementById('productImages');
-
-  if (productImagesInput && productImagesInput.files.length > 0) {
-    // User selected new product images files, append each file
-    Array.from(productImagesInput.files).forEach(file => {
-      formData.append('productImages', file);
-    });
-  } else {
-    // No new product images files selected
-    // Send the existing product images URLs as JSON string (replace with your actual current array)
-    const existingProductImages = window.currentProductImages || []; // <-- You must set this variable when loading form
-
-    formData.append('productImages', JSON.stringify(existingProductImages));
-  }
+  // 🟡 TEMP: Skip images for now
+  formData.append('imageUrl', 'https://via.placeholder.com/150');
+  formData.append('productImages', JSON.stringify(['https://via.placeholder.com/100']));
 
   try {
-    let res;
-    if (editingBusinessId) {
-      res = await fetch(`${API_URL}/${editingBusinessId}`, {
-        method: 'PUT',
-        body: formData,
-      });
-    } else {
-      res = await fetch(API_URL, {
-        method: 'POST',
-        body: formData,
-      });
-    }
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: formData
+    });
 
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || 'Failed to save business');
     }
 
-    showSuccess(editingBusinessId ? 'Business updated successfully' : 'Business created successfully');
+    showSuccess('Business created successfully');
     modal.classList.remove('active');
     await fetchBusinesses();
   } catch (error) {
     showError(error.message);
   }
 });
+
 
 
 // Initial fetch
