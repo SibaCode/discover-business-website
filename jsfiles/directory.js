@@ -1,5 +1,5 @@
 const API_URL = 'https://discover-business-backend.vercel.app/api/businesses';
-const API_URL_IMAGES = 'https://discover-business-backend.vercel.app/';
+const API_URL_IMAGES = 'https://discover-business.vercel.app/';
 const imagePath = '/uploads/1748388513258-158962106.png'; // get this dynamically from API
 
 
