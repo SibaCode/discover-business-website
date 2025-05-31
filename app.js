@@ -63,14 +63,14 @@ app.post("/api/businesses", uploadFields, async (req, res) => {
   try {
     const newBusiness = req.body;
     if (req.files['image']) {
-      newBusiness.imageUrl = `/uploads/${req.files['image'][0].filename}`;
+      newBusiness.imageUrl = req.files['image'][0].path;
     }
 console.log('Received files:', req.files);
 console.log('Received body:', req.body);
 
     // Handle product images
     if (req.files['productImages']) {
-      newBusiness.productImages = req.files['productImages'].map(file => `/uploads/${file.filename}`);
+      newBusiness.productImages = req.files['productImages'].map(file => file.path);
     }
     const docRef = await db.collection("businesses").add(newBusiness);
     res.status(201).json({ message: "Business created successfully", id: docRef.id, ...newBusiness });
