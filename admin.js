@@ -88,7 +88,7 @@ async function fetchBusinesses() {
         <td>${biz.email}</td>
                 <td>${biz.facebook}</td>
 
-<td>${biz.imageUrl ? `<img src="http://localhost:4000${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
+<td>${biz.imageUrl ? `<img src="${biz.imageUrl}" alt="Image" style="max-width: 80px;"/>` : '—'}</td>
         <td>
           <button class="btn edit" data-id="${biz.id}">Edit</button>
           <button class="btn delete" data-id="${biz.id}">Delete</button>
