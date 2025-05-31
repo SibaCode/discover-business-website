@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:4000/api/businesses';
-const API_URL_IMAGES = 'http://localhost:4000';
+const API_URL = '/api/businesses';
+const API_URL_IMAGES = '';
 const imagePath = '/uploads/1748388513258-158962106.png'; // get this dynamically from API
 
 

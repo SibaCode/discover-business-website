@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:4000/api/businesses';
+const API_URL = '/api/businesses';
 const businessName = document.getElementById('businessName');
 const listingCount = document.getElementById('listingCount');
 const inquiryCount = document.getElementById('inquiryCount');
