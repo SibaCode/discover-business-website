@@ -1,5 +1,5 @@
 
-const API_URL = 'https://discover-business-backend.vercel.app//api/businesses';
+const API_URL = 'https://discover-business-backend.vercel.app/api/businesses';
 const API_URL_IMAGES = 'https://discover-business-backend.vercel.app/';
 
 // Get the ID from the URL query parameter
