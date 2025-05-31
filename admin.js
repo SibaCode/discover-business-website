@@ -97,7 +97,6 @@ async function fetchBusinesses() {
       businessTableBody.appendChild(tr);
     });
 
-    // Add edit button listeners
     document.querySelectorAll('.btn.edit').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = e.target.dataset.id;
