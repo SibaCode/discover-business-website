@@ -1,4 +1,4 @@
-const API_URL = 'https://discover-business-backend.vercel.app//api/businesses';
+const API_URL = 'https://discover-business-backend.vercel.app/api/businesses';
 
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modalTitle');
