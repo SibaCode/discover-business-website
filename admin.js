@@ -37,15 +37,19 @@ function showMessage(msg, isError = false) {
   }
   
 
-// Open modal for adding a new business
-btnAdd.addEventListener('click', () => {
-  editingBusinessId = null;
-  modalTitle.textContent = 'Add Business';
-  businessForm.reset();
-  imagePreview.style.display = 'none';
-  modal.classList.add('active');
-});
-
+  btnAdd.addEventListener('click', () => {
+    editingBusinessId = null;
+    modalTitle.textContent = 'Add Business';
+    businessForm.reset();
+    imagePreview.style.display = 'none';
+    modal.classList.add('active');
+  });
+  
+  modalCloseBtn.addEventListener('click', () => {
+    editingBusinessId = null;
+    modal.classList.remove('active');
+  });
+  
 // Close modal
 modalCloseBtn.addEventListener('click', () => {
   modal.classList.remove('active');
@@ -185,40 +189,53 @@ async function deleteBusiness(id) {
 businessForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const formData = new FormData();
-
-  formData.append('name', businessForm.name.value);
-  formData.append('industry', businessForm.industry.value);
-  formData.append('description', businessForm.description.value);
-  formData.append('location', businessForm.location.value);
-  formData.append('contactPerson', businessForm.contactPerson.value);
-  formData.append('contactNumber', businessForm.contactNumber.value);
-  formData.append('email', businessForm.email.value);
-  formData.append('facebook', businessForm.facebook.value);
-  formData.append('products', businessForm.products.value);
-
-  // 🟡 TEMP: Skip images for now
-  formData.append('imageUrl', 'https://via.placeholder.com/150');
-  formData.append('productImages', JSON.stringify(['https://via.placeholder.com/100']));
+  // Prepare data as plain JS object (not FormData)
+  const data = {
+    name: businessForm.name.value,
+    industry: businessForm.industry.value,
+    description: businessForm.description.value,
+    location: businessForm.location.value,
+    contactPerson: businessForm.contactPerson.value,
+    contactNumber: businessForm.contactNumber.value,
+    email: businessForm.email.value,
+    facebook: businessForm.facebook.value,
+    products: businessForm.products.value,
+    imageUrl: 'https://via.placeholder.com/150', // placeholder image URL
+    productImages: ['https://via.placeholder.com/100'], // placeholder product images array
+  };
 
   try {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      body: formData
-    });
+    let res;
+    if (editingBusinessId) {
+      // Update existing business with PUT
+      res = await fetch(`${API_URL}/${editingBusinessId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } else {
+      // Create new business with POST
+      res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    }
 
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || 'Failed to save business');
     }
 
-    showSuccess('Business created successfully');
+    showSuccess(editingBusinessId ? 'Business updated successfully' : 'Business created successfully');
     modal.classList.remove('active');
+    editingBusinessId = null; // reset after saving
     await fetchBusinesses();
   } catch (error) {
     showError(error.message);
   }
 });
+
 
 
 
