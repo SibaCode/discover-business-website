@@ -1,6 +1,6 @@
 
 const API_URL = 'https://discover-business-backend.vercel.app/api/businesses';
-const API_URL_IMAGES = 'https://discover-business-backend.vercel.app/';
+const API_URL_IMAGES = 'https://discover-business.vercel.app/';
 
 // Get the ID from the URL query parameter
 const urlParams = new URLSearchParams(window.location.search);
@@ -88,10 +88,8 @@ if (facebookLink && biz.facebook) {
     imageEl.alt = biz.name;
   }
   const logoPath = `${API_URL_IMAGES}${biz.imageUrl}`;
-  const logoPath2 = `${biz.imageUrl}`;
 
 console.log(logoPath)
-console.log(logoPath2)
 
   // Hero banner background
 //   const heroDiv = document.querySelector('.hero_in.shop_detail');
